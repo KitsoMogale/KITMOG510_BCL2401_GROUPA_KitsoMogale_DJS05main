@@ -7,19 +7,30 @@ export const store = {
 
     getState(){
 
-        console.log(this.counter)
+        console.log(`count:${this.counter}`);
 
    },
+   subscribers: [],
 
    dispatch(action){
 
-    this.counter =  reducer(this.counter,action)
+    this.counter =  reducer(this.counter,action);
+
+     this.subscribers.forEach((item)=>{
+       
+       if(action.type == item.act){
+
+          item.callBack();
+
+      }
+    }
+    )
 
    },
 
-   subscribe(func){
-
-     func();
+   subscribe(action,func){
+    
+    this.subscribers.push({act:action.type,callBack:func });
 
    }
 
